@@ -1,11 +1,48 @@
-import contactsService from "../services/contactsServices.js";
+import * as contactsService from '../services/contactsServices.js';
 
-export const getAllContacts = (req, res) => {};
+import HttpError from '../helpers/HttpError.js';
 
-export const getOneContact = (req, res) => {};
+import controllerWrapper from '../helpers/controllerWrapper.js';
 
-export const deleteContact = (req, res) => {};
 
-export const createContact = (req, res) => {};
+const getAllContacts = async (req, res) => {
+  const result = await contactsService.getContacts();
 
-export const updateContact = (req, res) => {};
+  res.json(result);
+};
+
+const getOneContact = async (req, res) => {
+  const { id } = req.params;
+  const result = await contactsService.getContactById(id);
+
+  if (!result) {
+    throw HttpError(404, `Contact with id:${id} not found`);
+  }
+
+  res.json(result);
+};
+
+const deleteContact = (req, res) => {};
+const createContact = async (req, res) => {
+  const result = await contactsService.addContact(req.body);
+
+  res.status(201).json(result);
+};
+const updateContact = async (req, res) => {
+  const { id } = req.params;
+  const result = await contactsService.updateContactById(id, req.body);
+
+  if (!result) {
+    throw HttpError(404, `Contact with id:${id} not found`);
+  }
+
+  res.json(result);
+};
+
+export default {
+  getAllContacts: controllerWrapper(getAllContacts),
+  getOneContact: controllerWrapper(getOneContact),
+  deleteContact,
+  createContact: controllerWrapper(createContact),
+  updateContact,
+};
