@@ -13,7 +13,7 @@ contactsRouter.get('/', contactsControllers.getAllContacts);
 
 contactsRouter.get('/:id', contactsControllers.getOneContact);
 
-contactsRouter.delete('/:id', contactsControllers.deleteContact);
+contactsRouter.delete('/:id', contactsControllers.deleteContactById);
 
 contactsRouter.post(
   '/',
@@ -24,7 +24,7 @@ contactsRouter.post(
 contactsRouter.put(
   '/:id',
   validateBody(updateContactSchema),
-  contactsControllers.updateContact
+  contactsControllers.updateContactById
 );
 
 export default contactsRouter;
