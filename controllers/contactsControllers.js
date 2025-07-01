@@ -28,7 +28,7 @@ const createContact = async (req, res) => {
 };
 
 const updateContactById = async (req, res) => {
-  const { id } = request.params;
+  const { id } = req.params;
   const result = await contactsService.updateContactById(id, req.body);
 
   if (!result) {
@@ -39,7 +39,7 @@ const updateContactById = async (req, res) => {
 };
 
 const deleteContactById = async (req, res) => {
-  const { id } = request.params;
+  const { id } = req.params;
   const result = await contactsService.deleteContactById(id);
   if (!result) {
     throw HttpError(404, `Contact with id = ${id} not found `);
