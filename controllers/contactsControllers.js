@@ -48,10 +48,24 @@ const deleteContactById = async (req, res) => {
   res.json(result);
 };
 
+export const updateStatusContact = async (req, res, next) => {
+  const { contactId } = req.params;
+  const { favorite } = req.body;
+  const contact = await contactsService.updateStatusContact(contactId, {
+    favorite,
+  });
+
+  if (!contact) {
+    throw HttpError(404, `Contact with id = ${id} not found `);
+  }
+  res.json(contact);
+};
+
 export default {
   getAllContacts: controllerWrapper(getAllContacts),
   getOneContact: controllerWrapper(getOneContact),
   deleteContactById: controllerWrapper(deleteContactById),
   createContact: controllerWrapper(createContact),
   updateContactById: controllerWrapper(updateContactById),
+  updateStatusContact: controllerWrapper(updateStatusContact),
 };
