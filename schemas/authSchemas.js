@@ -1,13 +1,11 @@
-import express from "express";
-import { register, login, logout, getCurrent } from "../controllers/authController.js"; 
-import authMiddleware from "../middlewares/auth.js";
+import Joi from "joi";
 
-const router = express.Router();
+export const registerSchema = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().min(6).required(),
+});
 
-router.post("/register", register);
-router.post("/login", login);
-router.get("/current", authMiddleware, getCurrent);
-router.post("/logout", authMiddleware, logout);
-router.get("/current", authMiddleware, getCurrent);
-
-export default router;
+export const loginSchema = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().required(),
+});
